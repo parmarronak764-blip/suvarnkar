@@ -1,0 +1,500 @@
+{
+  "version": "2.0",
+  "description": "Static permission configuration for Suvarnakar ERP",
+  "modules": {
+    "user": {
+      "name": "User Management",
+      "permissions": [
+        "user.view",
+        "user.create",
+        "user.edit",
+        "user.delete",
+        "user.export"
+      ]
+    },
+    "company": {
+      "name": "Company Management",
+      "permissions": [
+        "company.view",
+        "company.create",
+        "company.edit",
+        "company.delete"
+      ]
+    },
+    "dashboard": {
+      "name": "Dashboard",
+      "permissions": [
+        "dashboard.view",
+        "dashboard.analytics"
+      ]
+    },
+    "reports": {
+      "name": "Reports",
+      "permissions": [
+        "reports.view",
+        "reports.generate",
+        "reports.export"
+      ]
+    },
+    "settings": {
+      "name": "System Settings",
+      "permissions": [
+        "settings.view",
+        "settings.edit",
+        "settings.system"
+      ]
+    },
+    "diamond_details": {
+      "name": "Diamond Details",
+      "permissions": [
+        "diamond_details.view",
+        "diamond_details.create",
+        "diamond_details.edit",
+        "diamond_details.delete",
+        "diamond_details.export"
+      ]
+    },
+    "offer_master": {
+      "name": "Offer Master",
+      "permissions": [
+        "offer_master.view",
+        "offer_master.create",
+        "offer_master.edit",
+        "offer_master.delete",
+        "offer_master.export"
+      ]
+    },
+    "product_categories": {
+      "name": "Product Categories",
+      "permissions": [
+        "product_categories.view",
+        "product_categories.create",
+        "product_categories.edit",
+        "product_categories.delete",
+        "product_categories.export"
+      ]
+    },
+    "products": {
+      "name": "Products",
+      "permissions": [
+        "products.view",
+        "products.create",
+        "products.edit",
+        "products.delete",
+        "products.export"
+      ]
+    },
+    "customer_groups": {
+      "name": "Customer Groups",
+      "permissions": [
+        "customer_groups.view",
+        "customer_groups.create",
+        "customer_groups.edit",
+        "customer_groups.delete",
+        "customer_groups.export"
+      ]
+    },
+    "barcode_locations": {
+      "name": "Barcode Locations",
+      "permissions": [
+        "barcode_locations.view",
+        "barcode_locations.create",
+        "barcode_locations.edit",
+        "barcode_locations.delete",
+        "barcode_locations.export"
+      ]
+    },
+    "packing": {
+      "name": "Packing Materials",
+      "permissions": [
+        "packing.view",
+        "packing.create",
+        "packing.edit",
+        "packing.delete",
+        "packing.export"
+      ]
+    },
+    "making_charges": {
+      "name": "Making Charges",
+      "permissions": [
+        "making_charges.view",
+        "making_charges.create",
+        "making_charges.edit",
+        "making_charges.delete",
+        "making_charges.export"
+      ]
+    },
+    "wastages": {
+      "name": "Wastages",
+      "permissions": [
+        "wastages.view",
+        "wastages.create",
+        "wastages.edit",
+        "wastages.delete",
+        "wastages.export"
+      ]
+    },
+    "less_types": {
+      "name": "Less Types",
+      "permissions": [
+        "less_types.view",
+        "less_types.create",
+        "less_types.edit",
+        "less_types.delete",
+        "less_types.export"
+      ]
+    },
+    "bonus_masters": {
+      "name": "Bonus Masters",
+      "permissions": [
+        "bonus_masters.view",
+        "bonus_masters.create",
+        "bonus_masters.edit",
+        "bonus_masters.delete",
+        "bonus_masters.export"
+      ]
+    },
+    "metal_colors": {
+      "name": "Metal Colors",
+      "permissions": [
+        "metal_colors.view",
+        "metal_colors.create",
+        "metal_colors.edit",
+        "metal_colors.delete",
+        "metal_colors.export"
+      ]
+    },
+    "gem_stones": {
+      "name": "Gem Stones",
+      "permissions": [
+        "gem_stones.view",
+        "gem_stones.create",
+        "gem_stones.edit",
+        "gem_stones.delete",
+        "gem_stones.export"
+      ]
+    },
+    "diamonds": {
+      "name": "Diamonds",
+      "permissions": [
+        "diamonds.view",
+        "diamonds.create",
+        "diamonds.edit",
+        "diamonds.delete",
+        "diamonds.export"
+      ]
+    },
+    "account": {
+      "name": "Account Management",
+      "permissions": [
+        "account.view",
+        "account.edit",
+        "account.change_password",
+        "account.billing",
+        "account.notifications",
+        "account.socials"
+      ]
+    },
+    "barcode_tag_items": {
+      "name": "Barcode Tag Items",
+      "permissions": [
+        "barcode_tag_item.view",
+        "barcode_tag_item.create",
+        "barcode_tag_item.edit",
+        "barcode_tag_item.delete"
+      ]
+    }
+  },
+  "roles": {
+    "admin": {
+      "name": "Administrator",
+      "permissions": [
+        "user.view",
+        "user.create",
+        "user.edit",
+        "user.delete",
+        "user.export",
+        "company.view",
+        "company.create",
+        "company.edit",
+        "company.delete",
+        "dashboard.view",
+        "dashboard.analytics",
+        "reports.view",
+        "reports.generate",
+        "reports.export",
+        "settings.view",
+        "settings.edit",
+        "settings.system",
+        "diamond_details.view",
+        "diamond_details.create",
+        "diamond_details.edit",
+        "diamond_details.delete",
+        "diamond_details.export",
+        "offer_master.view",
+        "offer_master.create",
+        "offer_master.edit",
+        "offer_master.delete",
+        "offer_master.export",
+        "product_categories.view",
+        "product_categories.create",
+        "product_categories.edit",
+        "product_categories.delete",
+        "product_categories.export",
+        "products.view",
+        "products.create",
+        "products.edit",
+        "products.delete",
+        "products.export",
+        "customer_groups.view",
+        "customer_groups.create",
+        "customer_groups.edit",
+        "customer_groups.delete",
+        "customer_groups.export",
+        "barcode_locations.view",
+        "barcode_locations.create",
+        "barcode_locations.edit",
+        "barcode_locations.delete",
+        "barcode_locations.export",
+        "packing.view",
+        "packing.create",
+        "packing.edit",
+        "packing.delete",
+        "packing.export",
+        "making_charges.view",
+        "making_charges.create",
+        "making_charges.edit",
+        "making_charges.delete",
+        "making_charges.export",
+        "wastages.view",
+        "wastages.create",
+        "wastages.edit",
+        "wastages.delete",
+        "wastages.export",
+        "less_types.view",
+        "less_types.create",
+        "less_types.edit",
+        "less_types.delete",
+        "less_types.export",
+        "bonus_masters.view",
+        "bonus_masters.create",
+        "bonus_masters.edit",
+        "bonus_masters.delete",
+        "bonus_masters.export",
+        "metal_colors.view",
+        "metal_colors.create",
+        "metal_colors.edit",
+        "metal_colors.delete",
+        "metal_colors.export",
+        "gem_stones.view",
+        "gem_stones.create",
+        "gem_stones.edit",
+        "gem_stones.delete",
+        "gem_stones.export",
+        "diamonds.view",
+        "diamonds.create",
+        "diamonds.edit",
+        "diamonds.delete",
+        "diamonds.export",
+        "account.view",
+        "account.edit",
+        "account.change_password",
+        "account.billing",
+        "account.notifications",
+        "account.socials",
+        "barcode_tag_item.view",
+        "barcode_tag_item.create",
+        "barcode_tag_item.edit",
+        "barcode_tag_item.delete"
+      ]
+    },
+    "manager": {
+      "name": "Manager",
+      "permissions": [
+        "user.view",
+        "user.create",
+        "user.edit",
+        "company.view",
+        "company.edit",
+        "dashboard.view",
+        "dashboard.analytics",
+        "reports.view",
+        "reports.generate",
+        "reports.export",
+        "settings.view",
+        "diamond_details.view",
+        "diamond_details.create",
+        "diamond_details.edit",
+        "diamond_details.export",
+        "offer_master.view",
+        "offer_master.create",
+        "offer_master.edit",
+        "offer_master.export",
+        "product_categories.view",
+        "product_categories.create",
+        "product_categories.edit",
+        "product_categories.export",
+        "products.view",
+        "products.create",
+        "products.edit",
+        "products.export",
+        "customer_groups.view",
+        "customer_groups.create",
+        "customer_groups.edit",
+        "customer_groups.export",
+        "barcode_locations.view",
+        "barcode_locations.create",
+        "barcode_locations.edit",
+        "barcode_locations.export",
+        "packing.view",
+        "packing.create",
+        "packing.edit",
+        "packing.export",
+        "making_charges.view",
+        "making_charges.create",
+        "making_charges.edit",
+        "making_charges.export",
+        "wastages.view",
+        "wastages.create",
+        "wastages.edit",
+        "wastages.export",
+        "less_types.view",
+        "less_types.create",
+        "less_types.edit",
+        "less_types.export",
+        "bonus_masters.view",
+        "bonus_masters.create",
+        "bonus_masters.edit",
+        "bonus_masters.export",
+        "metal_colors.view",
+        "metal_colors.create",
+        "metal_colors.edit",
+        "metal_colors.export",
+        "gem_stones.view",
+        "gem_stones.create",
+        "gem_stones.edit",
+        "gem_stones.export",
+        "diamonds.view",
+        "diamonds.create",
+        "diamonds.edit",
+        "diamonds.export",
+        "account.view",
+        "account.edit",
+        "account.change_password",
+        "account.billing",
+        "account.notifications",
+        "account.socials",
+        "barcode_tag_item.view",
+        "barcode_tag_item.create",
+        "barcode_tag_item.edit"
+      ]
+    },
+    "user": {
+      "name": "Regular User",
+      "permissions": [
+        "user.view",
+        "user.create",
+        "user.edit",
+        "user.delete",
+        "user.export",
+        "company.view",
+        "company.create",
+        "company.edit",
+        "company.delete",
+        "dashboard.view",
+        "dashboard.analytics",
+        "reports.view",
+        "reports.generate",
+        "reports.export",
+        "settings.view",
+        "settings.edit",
+        "settings.system",
+        "diamond_details.view",
+        "diamond_details.create",
+        "diamond_details.edit",
+        "diamond_details.delete",
+        "diamond_details.export",
+        "offer_master.view",
+        "offer_master.create",
+        "offer_master.edit",
+        "offer_master.delete",
+        "offer_master.export",
+        "product_categories.view",
+        "product_categories.create",
+        "product_categories.edit",
+        "product_categories.delete",
+        "product_categories.export",
+        "products.view",
+        "products.create",
+        "products.edit",
+        "products.delete",
+        "products.export",
+        "customer_groups.view",
+        "customer_groups.create",
+        "customer_groups.edit",
+        "customer_groups.delete",
+        "customer_groups.export",
+        "barcode_locations.view",
+        "barcode_locations.create",
+        "barcode_locations.edit",
+        "barcode_locations.delete",
+        "barcode_locations.export",
+        "packing.view",
+        "packing.create",
+        "packing.edit",
+        "packing.delete",
+        "packing.export",
+        "making_charges.view",
+        "making_charges.create",
+        "making_charges.edit",
+        "making_charges.delete",
+        "making_charges.export",
+        "wastages.view",
+        "wastages.create",
+        "wastages.edit",
+        "wastages.delete",
+        "wastages.export",
+        "less_types.view",
+        "less_types.create",
+        "less_types.edit",
+        "less_types.delete",
+        "less_types.export",
+        "bonus_masters.view",
+        "bonus_masters.create",
+        "bonus_masters.edit",
+        "bonus_masters.delete",
+        "bonus_masters.export",
+        "metal_colors.view",
+        "metal_colors.create",
+        "metal_colors.edit",
+        "metal_colors.delete",
+        "metal_colors.export",
+        "gem_stones.view",
+        "gem_stones.create",
+        "gem_stones.edit",
+        "gem_stones.delete",
+        "gem_stones.export",
+        "diamonds.view",
+        "diamonds.create",
+        "diamonds.edit",
+        "diamonds.delete",
+        "diamonds.export",
+        "account.view",
+        "account.edit",
+        "account.change_password",
+        "account.billing",
+        "account.notifications",
+        "account.socials",
+        "barcode_tag_item.view",
+        "barcode_tag_item.create",
+        "barcode_tag_item.edit",
+        "barcode_tag_item.delete",
+        "purchase.view",
+        "purchase.create",
+        "purchase.edit",
+        "purchase.delete",
+        "purchase.export"
+      ]
+    }
+  }
+}
