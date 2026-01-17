@@ -34,7 +34,8 @@ import {
 import { ExpenseTypeTableRow } from './expense-type-table-row';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getExpenseTypes } from 'src/redux/slices/expenseType.slice';
+import { deleteExpenseType, getExpenseTypes } from 'src/redux/slices/expenseType.slice';
+import { toast } from 'sonner';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +60,15 @@ export function ExpenseTypeListView() {
   }, [dispatch]);
 
   const notFound = !loading && expenseTypes.length === 0;
+  const handleDeleteRow = async (id) => {
+    try {
+      await dispatch(deleteExpenseType(id)).unwrap();
 
+      toast.success('Expense type deleted successfully!');
+    } catch (error) {
+      toast.error(error?.message || 'Failed to delete expense type');
+    }
+  };
   return (
     <>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -152,7 +161,7 @@ export function ExpenseTypeListView() {
                           index={index}
                           selected={table.selected.includes(row.id)}
                           onSelectRow={() => table.onSelectRow(row.id)}
-                          onDeleteRow={() => {}}
+                          onDeleteRow={() => handleDeleteRow(row.id)}
                         />
                       ))}
 

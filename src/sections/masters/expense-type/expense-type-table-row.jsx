@@ -11,12 +11,14 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomPopover } from 'src/components/custom-popover';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 // ----------------------------------------------------------------------
 
 export function ExpenseTypeTableRow({ row, index, selected, onSelectRow, onDeleteRow }) {
   const confirmDialog = useBoolean();
   const menuActions = usePopover();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -46,7 +48,7 @@ export function ExpenseTypeTableRow({ row, index, selected, onSelectRow, onDelet
         onClose={menuActions.onClose}
       >
         <MenuList>
-          <MenuItem>
+          <MenuItem onClick={() => navigate(`/masters/expense-type/edit/${row.id}`)}>
             <Iconify icon="solar:pen-bold" />
             Edit
           </MenuItem>

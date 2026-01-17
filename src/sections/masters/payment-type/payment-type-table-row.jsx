@@ -1,6 +1,5 @@
 import { useBoolean, usePopover } from 'minimal-shared/hooks';
 
-import Box from '@mui/material/Box';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
@@ -32,7 +31,7 @@ export function PaymentTypeTableRow({ row, selected, onSelectRow, onDeleteRow })
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.name}</TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.description || '-'}</TableCell>
-
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.balance || '-'}</TableCell>
         <TableCell>
           <Label color={row.is_active ? 'success' : 'error'}>
             {row.is_active ? 'Active' : 'Inactive'}

@@ -9,25 +9,29 @@ import Typography from '@mui/material/Typography';
 
 import { Form, Field } from 'src/components/hook-form';
 import { toast } from 'src/components/snackbar';
+
 import { ExpenseTypeSchema } from 'src/schema/expense-type.schema';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { createExpenseType } from 'src/redux/slices/expenseType.slice';
+import { createExpenseType, updateExpenseType } from 'src/redux/slices/expenseType.slice';
+
+import { paths } from 'src/routes/paths';
+import { useNavigate } from 'react-router';
 
 // ----------------------------------------------------------------------
 
 export function ExpenseTypeCreateEditForm({ currentExpenseType }) {
-  const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
-  console.log('SELECTED COMPANY ID IN EXPENSE TYPE FORM →', selectedCompany);
-  const { loading } = useSelector((state) => state?.expenseType);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const defaultValues = {
-    name: '',
-  };
 
+  const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
+
+  const { loading } = useSelector((state) => state.expenseType);
+  console.log(loading);
   const methods = useForm({
     mode: 'onSubmit',
     resolver: zodResolver(ExpenseTypeSchema),
-    defaultValues,
+    defaultValues: { name: '' },
   });
 
   const {
@@ -36,7 +40,6 @@ export function ExpenseTypeCreateEditForm({ currentExpenseType }) {
     formState: { isSubmitting },
   } = methods;
 
-  // edit mode
   useEffect(() => {
     if (currentExpenseType) {
       reset(currentExpenseType);
@@ -45,16 +48,36 @@ export function ExpenseTypeCreateEditForm({ currentExpenseType }) {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      console.log('EXPENSE TYPE DATA →', data);
-      dispatch(createExpenseType({ name: data?.name, company: selectedCompany }));
+      if (currentExpenseType?.id) {
+        // ✅ EDIT MODE
+        await dispatch(
+          updateExpenseType({
+            typeId: currentExpenseType.id,
+            payload: {
+              name: data.name,
+              company_id: selectedCompany,
+            },
+          })
+        ).unwrap();
 
-      toast.success(
-        currentExpenseType
-          ? 'Expense type updated successfully!'
-          : 'Expense type created successfully!'
-      );
+        toast.success('Expense type updated successfully!');
+      } else {
+        // ✅ CREATE MODE
+
+        console.log(selectedCompany, 'cccc');
+        await dispatch(
+          createExpenseType({
+            name: data.name,
+            company: selectedCompany,
+          })
+        ).unwrap();
+
+        toast.success('Expense type created successfully!');
+      }
+
+      navigate(paths.masters.expenseType);
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error(error?.message || 'Something went wrong');
     }
   });
 
@@ -65,26 +88,16 @@ export function ExpenseTypeCreateEditForm({ currentExpenseType }) {
           {currentExpenseType ? 'Edit Expense Type' : 'Add Expense Type'}
         </Typography>
 
-        {/* ✅ OLD GRID LAYOUT */}
         <Grid container spacing={2}>
-          {/* Expense Type Name */}
           <Grid size={6}>
-            <Field.Text
-              name="name"
-              label="Expense Type *"
-              placeholder="Enter expense type name"
-              fullWidth
-              slotProps={{ inputLabel: { shrink: true } }}
-            />
+            <Field.Text name="name" label="Expense Type *" fullWidth />
           </Grid>
 
-          {/* Empty column for layout balance */}
           <Grid size={6} />
 
-          {/* Save Button */}
           <Grid size={12} display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained" disabled={isSubmitting}>
-              {currentExpenseType ? 'Save Changes' : 'Save'}
+            <Button type="submit" variant="contained" disabled={loading || isSubmitting}>
+              {loading ? 'Saving...' : 'Save'}
             </Button>
           </Grid>
         </Grid>

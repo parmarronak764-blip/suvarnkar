@@ -6,6 +6,7 @@ import userReducer from './slices/user.slice';
 import accountReducer from './slices/account.slice';
 import expenseReducer from './slices/expense.slice';
 import expenseTypeReducer from './slices/expenseType.slice';
+import paymentTypeReducer from "./slices/paymentType.slice"
 
 // Persist configuration
 const persistConfig = {
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   account: accountReducer,
   expense: expenseReducer,
   expenseType: expenseTypeReducer,
+  paymentType: paymentTypeReducer,
 });
 
 // Create persisted reducer
