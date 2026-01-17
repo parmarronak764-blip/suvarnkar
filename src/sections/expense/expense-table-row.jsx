@@ -26,10 +26,10 @@ export function ExpenseTableRow({ row, index, selected, onSelectRow, onDeleteRow
         <TableCell width={80}>{index + 1}</TableCell>
         <TableCell>{row.expense_date}</TableCell>
         <TableCell>{row.company_name}</TableCell>
+        <TableCell>{row.payment_type_name}</TableCell>
         <TableCell>{row.category_name}</TableCell>
         <TableCell>{row.amount}</TableCell>
         <TableCell>{row.description || '-'}</TableCell>
-
         <TableCell>
           <IconButton onClick={menuActions.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />

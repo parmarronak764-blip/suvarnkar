@@ -7,11 +7,16 @@ import AddExpenseForm from 'src/sections/expense/add-expense-form';
 function AddExpensePage() {
   const { expenseId } = useParams();
   const dispatch = useDispatch();
-  const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
+  const companyId = useSelector((state) => state.user?.selectedCompany?.company?.id);
   const { expenseById } = useSelector((state) => state.expense);
   useEffect(() => {
     if (expenseId) {
-      dispatch(getExpenseById({ company_id: selectedCompany, id: expenseId }));
+      dispatch(
+        getExpenseById({
+          id: expenseId,
+          company_id: companyId,
+        })
+      );
     }
   }, [expenseId, dispatch]);
   return (

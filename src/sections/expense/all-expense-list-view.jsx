@@ -41,6 +41,7 @@ const TABLE_HEAD = [
   { id: 'srno', label: 'Sr No', width: 80 },
   { id: 'date', label: 'Date' },
   { id: 'comapny', label: 'Company' },
+  { id: 'paymentType', label: 'Payment Type' },
   { id: 'category', label: 'Expense Type' },
   { id: 'amount', label: 'Amount' },
   { id: 'description', label: 'Description' },

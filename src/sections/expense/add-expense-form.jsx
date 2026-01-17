@@ -1,32 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
+
 import { Form, Field } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { createExpense } from 'src/redux/slices/expense.slice';
-import { getExpenseTypes } from 'src/redux/slices/expenseType.slice';
 
-const paymentTypeOptions = [
-  { value: 1, label: 'Cash' },
-  { value: 2, label: 'UPI' },
-  { value: 3, label: 'Bank Transfer' },
-];
+import { createExpense, updateExpenseById } from 'src/redux/slices/expense.slice';
+import { getExpenseTypes } from 'src/redux/slices/expenseType.slice';
+import { getPaymentTypes } from 'src/redux/slices/paymentType.slice';
 
 function AddExpenseForm({ currentExpenseData }) {
   const dispatch = useDispatch();
+
   const { selectedCompany } = useSelector((state) => state.user);
   const { expenseTypes } = useSelector((state) => state.expenseType);
+  const { paymentTypes } = useSelector((state) => state.paymentType);
+
+  const isEdit = Boolean(currentExpenseData?.id);
+
+  const defaultValues = useMemo(
+    () => ({
+      category: currentExpenseData?.category || '',
+      paymentType: currentExpenseData?.payment_type || '',
+      amount: currentExpenseData?.amount || '',
+      description: currentExpenseData?.description || '',
+    }),
+    [currentExpenseData]
+  );
+
+  console.log({ currentExpenseData });
 
   const methods = useForm({
     mode: 'onSubmit',
-    defaultValues: {
-      category: '',
-      paymentType: '',
-      amount: '',
-      description: '',
-    },
+    defaultValues,
   });
 
   const {
@@ -36,10 +44,10 @@ function AddExpenseForm({ currentExpenseData }) {
   } = methods;
 
   useEffect(() => {
-    if (currentExpenseData) {
-      reset(currentExpenseData);
+    if (isEdit) {
+      reset(defaultValues);
     }
-  }, [currentExpenseData, reset]);
+  }, [isEdit, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
     const payload = {
@@ -48,12 +56,24 @@ function AddExpenseForm({ currentExpenseData }) {
       payment_type: data.paymentType,
       amount: data.amount,
       description: data.description,
-      expense_date: new Date().toISOString().split('T')[0],
+      expense_date: isEdit
+        ? currentExpenseData.expense_date
+        : new Date().toISOString().split('T')[0],
     };
 
     try {
-      await dispatch(createExpense(payload)).unwrap();
-      reset();
+      if (isEdit) {
+        await dispatch(
+          updateExpenseById({
+            id: currentExpenseData.id,
+            company_id: selectedCompany.company.id,
+            data: payload,
+          })
+        ).unwrap();
+      } else {
+        await dispatch(createExpense(payload)).unwrap();
+        reset();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +81,8 @@ function AddExpenseForm({ currentExpenseData }) {
 
   useEffect(() => {
     dispatch(getExpenseTypes());
-  }, []);
+    dispatch(getPaymentTypes());
+  }, [dispatch]);
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
@@ -87,7 +108,10 @@ function AddExpenseForm({ currentExpenseData }) {
               label="Payment Type *"
               isWithMenuItem
               fullWidth
-              options={paymentTypeOptions}
+              options={paymentTypes.map((item) => ({
+                value: item.id,
+                label: item.name,
+              }))}
               rules={{ required: 'Payment type is required' }}
             />
           </Grid>
@@ -112,7 +136,13 @@ function AddExpenseForm({ currentExpenseData }) {
 
           <Grid size={12}>
             <Button type="submit" variant="contained" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : 'Save'}
+              {isEdit
+                ? isSubmitting
+                  ? 'Updating...'
+                  : 'Update'
+                : isSubmitting
+                  ? 'Saving...'
+                  : 'Save'}
             </Button>
           </Grid>
         </Grid>

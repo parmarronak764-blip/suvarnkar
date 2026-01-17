@@ -1,11 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import axiosInstance from 'src/lib/axios';
 
 export const getExpenseById = createAsyncThunk(
   'expense/getExpenseById',
-  async (params, { rejectWithValue }) => {
+  async ({ id, company_id }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get('/expenses/', { params });
+      const response = await axiosInstance.get(`/expenses/${id}/`, {
+        params: { company_id },
+      });
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch expense');
@@ -41,6 +44,21 @@ export const getExpenses = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch expenses');
+    }
+  }
+);
+
+export const updateExpenseById = createAsyncThunk(
+  'expense/updateExpenseById',
+  async ({ id, company_id, data }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`/expenses/${id}/`, data, {
+        params: { company_id },
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Failed to update expense');
     }
   }
 );
@@ -126,6 +144,23 @@ const expenseSlice = createSlice({
         state.error = action.payload;
       })
 
+      .addCase(updateExpenseById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateExpenseById.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.expenses.findIndex((item) => item.id === action.payload.id);
+        state.expenseById = {
+          ...state.expenseById,
+          ...action.payload,
+        };
+      })
+
+      .addCase(updateExpenseById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // ---------------- DELETE ----------------
       .addCase(deleteExpense.pending, (state) => {
         state.loading = true;
