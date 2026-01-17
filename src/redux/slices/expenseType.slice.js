@@ -199,18 +199,18 @@ const expenseTypeSlice = createSlice({
 
       // ================= DELETE =================
       .addCase(deleteExpenseType.pending, (state) => {
-        // state.loading = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(deleteExpenseType.fulfilled, (state, action) => {
-        // state.loading = false;
+        state.loading = false;
 
         state.expenseTypes = state.expenseTypes.filter((item) => item.id !== action.payload);
 
         state.count -= 1;
       })
       .addCase(deleteExpenseType.rejected, (state, action) => {
-        // state.loading = false;
+        state.loading = false;
         state.error = action.payload;
       });
   },
