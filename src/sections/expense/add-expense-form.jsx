@@ -5,14 +5,20 @@ import Button from '@mui/material/Button';
 
 import { Form, Field } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createExpense, updateExpenseById } from 'src/redux/slices/expense.slice';
+
 import { getExpenseTypes } from 'src/redux/slices/expenseType.slice';
 import { getPaymentTypes } from 'src/redux/slices/paymentType.slice';
+
 import { paths } from 'src/routes/paths';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router';
+
+import { ExpenseSchema } from 'src/schema/expense.schema';
 
 function AddExpenseForm({ currentExpenseData }) {
   const dispatch = useDispatch();
@@ -34,11 +40,10 @@ function AddExpenseForm({ currentExpenseData }) {
     [currentExpenseData]
   );
 
-  console.log({ currentExpenseData });
-
   const methods = useForm({
     mode: 'onSubmit',
     defaultValues,
+    resolver: zodResolver(ExpenseSchema), // ✅ FIX
   });
 
   const {
@@ -74,12 +79,14 @@ function AddExpenseForm({ currentExpenseData }) {
             data: payload,
           })
         ).unwrap();
+
         toast.success('Expense updated successfully!');
       } else {
         await dispatch(createExpense(payload)).unwrap();
-        toast.success('Expense Added successfully!');
+        toast.success('Expense added successfully!');
         reset();
       }
+
       navigate(paths.expense.allExpense);
     } catch (error) {
       toast.error(error?.message || 'Something went wrong');
@@ -105,7 +112,6 @@ function AddExpenseForm({ currentExpenseData }) {
                 value: item.id,
                 label: item.name,
               }))}
-              rules={{ required: 'Category is required' }}
             />
           </Grid>
 
@@ -119,7 +125,6 @@ function AddExpenseForm({ currentExpenseData }) {
                 value: item.id,
                 label: item.name,
               }))}
-              rules={{ required: 'Payment type is required' }}
             />
           </Grid>
 
@@ -129,10 +134,6 @@ function AddExpenseForm({ currentExpenseData }) {
               label="Amount *"
               type="number"
               fullWidth
-              rules={{
-                required: 'Amount is required',
-                min: { value: 1, message: 'Amount must be greater than 0' },
-              }}
               slotProps={{ inputLabel: { shrink: true } }}
             />
           </Grid>
