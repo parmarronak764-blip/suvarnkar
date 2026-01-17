@@ -95,6 +95,16 @@ export const navData = [
             permission: 'products.view',
           },
           {
+            title: 'Payment Type',
+            path: paths.masters.paymentType,
+            permission: 'payment_type.view',
+          },
+          {
+            title: "All Expense Type",
+            path: paths.masters.expenseType,
+            permission: 'expense_type.view',
+          },
+          {
             title: 'EMI Customer Groups',
             path: paths.masters.customerGroups,
             permission: 'customer_groups.view',

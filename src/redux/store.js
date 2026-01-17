@@ -5,6 +5,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import userReducer from './slices/user.slice';
 import accountReducer from './slices/account.slice';
 import expenseReducer from './slices/expense.slice';
+import expenseTypeReducer from './slices/expenseType.slice';
 
 // Persist configuration
 const persistConfig = {
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   account: accountReducer,
   expense: expenseReducer,
+  expenseType: expenseTypeReducer,
 });
 
 // Create persisted reducer

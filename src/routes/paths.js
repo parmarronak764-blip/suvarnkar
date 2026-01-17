@@ -89,6 +89,8 @@ export const paths = {
     bonusMasters: `${ROOTS.MASTERS}/bonus-masters`,
     metalColors: `${ROOTS.MASTERS}/metal-colors`,
     gemStones: `${ROOTS.MASTERS}/gem-stones`,
+    paymentType: `${ROOTS.MASTERS}/payment-type`,
+    expenseType: `${ROOTS.MASTERS}/expense-type`,
   },
   expense: {
     addExpense: `${ROOTS.EXPENsE}/add-expense`,

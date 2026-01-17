@@ -22,6 +22,14 @@ const PageFour = lazy(() => import('src/pages/dashboard/four'));
 const PageFive = lazy(() => import('src/pages/dashboard/five'));
 const PageSix = lazy(() => import('src/pages/dashboard/six'));
 const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
+const PaymentTypeListPage = lazy(() => import('src/pages/masters/payment-type/payment-type'));
+const PaymentTypeAddPage = lazy(
+  () => import('src/pages/masters/payment-type/add/payment-type-add')
+);
+const ExpenseType = lazy(() => import('src/pages/masters/expense-type/expense-type'));
+const ExpenseTypeAddPage = lazy(
+  () => import('src/pages/masters/expense-type/add/expense-type-add')
+);
 const AddUserPage = lazy(() => import('src/pages/dashboard/user/new'));
 const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
 const DiamondDetailsPage = lazy(() => import('src/pages/masters/diamond-details'));
@@ -124,6 +132,26 @@ export const dashboardRoutes = [
     path: 'masters/products',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [{ element: <ProductsPage />, index: true }],
+  },
+  {
+    path: 'masters/payment-type',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <PaymentTypeListPage />, index: true }],
+  },
+  {
+    path: 'masters/payment-type/add',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <PaymentTypeAddPage />, index: true }],
+  },
+  {
+    path: 'masters/expense-type',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <ExpenseType />, index: true }],
+  },
+  {
+    path: 'masters/expense-type/add',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <ExpenseTypeAddPage />, index: true }],
   },
   {
     path: 'masters/customer-groups',
