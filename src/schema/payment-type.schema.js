@@ -1,22 +1,16 @@
 import { z as zod } from 'zod';
 
-/**
- * Payment Type Schema
- */
-export const createPaymentTypeSchema = () =>
-  zod.object({
-    name: zod.string().min(1, 'Name is required').max(100, 'Maximum 100 characters allowed'),
-    type: zod.enum(['cash', 'bank'], {
-      required_error: 'Type is required',
-    }),
+export const PaymentTypeSchema = zod.object({
+  name: zod.string().min(1, 'Name is required').max(100, 'Maximum 100 characters allowed'),
 
-    balance: zod
-      .number()
-      .min(1, 'Balance is required')
-      .refine((val) => /^\d+(\.\d{1,2})?$/.test(val), 'Only up to 2 decimal places allowed')
-      .transform((val) => Number(val)),
+  type: zod.enum(['cash', 'bank'], {
+    required_error: 'Type is required',
+  }),
 
-    description: zod.string().nullable().optional(),
-  });
+  balance: zod
+    .number()
+    .min(1, 'Balance is required')
+    .refine((val) => /^\d+(\.\d{1,2})?$/.test(val), 'Only up to 2 decimal places allowed'),
 
-export const PaymentTypeSchema = createPaymentTypeSchema();
+  description: zod.string().nullable().optional(),
+});
