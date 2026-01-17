@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { combineReducers } from '@reduxjs/toolkit';
 import userReducer from './slices/user.slice';
 import accountReducer from './slices/account.slice';
+import expenseReducer from './slices/expense.slice';
 
 // Persist configuration
 const persistConfig = {
@@ -16,6 +17,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   account: accountReducer,
+  expense: expenseReducer,
 });
 
 // Create persisted reducer
@@ -39,21 +41,24 @@ const store = configureStore({
           'spec_validate_param',
           'spec_update_operation_meta_value',
           'show_popup',
-          'authorize'
+          'authorize',
         ],
       },
     }),
   // Add devtools configuration to prevent external interference
-  devTools: process.env.NODE_ENV !== 'production' ? {
-    name: 'Suvarnakar ERP',
-    actionSanitizer: (action) => {
-      // Filter out external actions in devtools
-      if (action.type.startsWith('oas3_') || action.type.startsWith('spec_')) {
-        return { ...action, type: `[EXTERNAL] ${action.type}` };
-      }
-      return action;
-    }
-  } : false,
+  devTools:
+    process.env.NODE_ENV !== 'production'
+      ? {
+          name: 'Suvarnakar ERP',
+          actionSanitizer: (action) => {
+            // Filter out external actions in devtools
+            if (action.type.startsWith('oas3_') || action.type.startsWith('spec_')) {
+              return { ...action, type: `[EXTERNAL] ${action.type}` };
+            }
+            return action;
+          },
+        }
+      : false,
 });
 
 // Create persistor

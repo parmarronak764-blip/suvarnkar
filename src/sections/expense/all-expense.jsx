@@ -20,31 +20,31 @@ const TABLE_HEAD = [
   { id: 'date-time', label: 'Date Time' },
   { id: 'address', label: 'Address' },
   { id: 'no', label: 'Sr. No.' },
-  { id: 'expence-type', label: 'Expense Type' },
+  { id: 'expense-type', label: 'Expense Type' },
   { id: 'amount', label: 'Amount' },
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Action', width: 88 },
 ];
 
-function AllExpence() {
+function AllExpense() {
   return (
     <Container maxWidth="xl">
       <CustomBreadcrumbs
         heading="List"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'Expence' },
+          { name: 'Expense' },
           { name: 'List' },
         ]}
         action={
           <PermissionGate permission="user.create">
             <Button
               component={RouterLink}
-              href={paths.expence.addExpence}
+              href={paths.expense.addExpense}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              Add Expence
+              Add Expense
             </Button>
           </PermissionGate>
         }
@@ -87,11 +87,11 @@ function AllExpence() {
             ) : (
               <>
                 <TableRow>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expence</TableCell>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expence</TableCell>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expence</TableCell>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expence</TableCell>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expence</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expense</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expense</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expense</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expense</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>Expense</TableCell>
                 </TableRow>
               </>
             )}
@@ -102,4 +102,4 @@ function AllExpence() {
   );
 }
 
-export default AllExpence;
+export default AllExpense;

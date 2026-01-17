@@ -9,8 +9,8 @@ import { LoadingScreen } from 'src/components/loading-screen';
 import { AuthGuard } from 'src/auth/guard';
 
 import { usePathname } from '../hooks';
-import AddExpencePage from 'src/pages/expence/add-expence';
-import AllExpencePage from 'src/pages/expence/all-expence';
+import AddExpensePage from 'src/pages/expense/add-expense';
+import AllExpensePage from 'src/pages/expense/all-expense';
 
 // ----------------------------------------------------------------------
 
@@ -171,14 +171,14 @@ export const dashboardRoutes = [
     children: [{ element: <GemStonesPage />, index: true }],
   },
   {
-    path: 'expence/add-expence',
+    path: 'expense/add-expense',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
-    children: [{ element: <AddExpencePage />, index: true }],
+    children: [{ element: <AddExpensePage />, index: true }],
   },
   {
-    path: 'expence/all-expence',
+    path: 'expense/all-expense',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
-    children: [{ element: <AllExpencePage />, index: true }],
+    children: [{ element: <AllExpensePage />, index: true }],
   },
   {
     path: 'account/list',

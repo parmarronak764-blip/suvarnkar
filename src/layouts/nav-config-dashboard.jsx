@@ -145,22 +145,17 @@ export const navData = [
   },
 
   {
-    subheader: 'Expence',
+    subheader: 'Expense',
     items: [
       {
-        title: 'Expence',
+        title: 'Expense',
         path: paths.dashboard.group.root,
         icon: ICONS.user,
         children: [
           {
-            title: 'Add Expence',
-            path: paths.expence.addExpence,
-            permission: 'addExpence.view',
-          },
-          {
-            title: 'All Expence',
-            path: paths.expence.allExpence,
-            permission: 'allExpence.view',
+            title: 'All Expense',
+            path: paths.expense.allExpense,
+            permission: 'allExpense.view',
           },
         ],
       },
