@@ -1,8 +1,8 @@
 import React from 'react';
-import AllExpense from 'src/sections/expense/all-expense';
+import { ExpenseListView } from 'src/sections/expense/all-expense-list-view';
 
 function AllExpensePage() {
-  return <AllExpense />;
+  return <ExpenseListView />;
 }
 
 export default AllExpensePage;

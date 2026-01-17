@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
@@ -6,21 +6,18 @@ import { Form, Field } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createExpense } from 'src/redux/slices/expense.slice';
-
-const categoryOptions = [
-  { value: 'salary', label: 'Salary' },
-  { value: 'rent', label: 'Rent' },
-];
+import { getExpenseTypes } from 'src/redux/slices/expenseType.slice';
 
 const paymentTypeOptions = [
-  { value: 'cash', label: 'Cash' },
-  { value: 'upi', label: 'UPI' },
-  { value: 'bank', label: 'Bank Transfer' },
+  { value: 1, label: 'Cash' },
+  { value: 2, label: 'UPI' },
+  { value: 3, label: 'Bank Transfer' },
 ];
 
-function AddExpenseForm() {
+function AddExpenseForm({ currentExpenseData }) {
   const dispatch = useDispatch();
   const { selectedCompany } = useSelector((state) => state.user);
+  const { expenseTypes } = useSelector((state) => state.expenseType);
 
   const methods = useForm({
     mode: 'onSubmit',
@@ -37,6 +34,12 @@ function AddExpenseForm() {
     formState: { isSubmitting },
     reset,
   } = methods;
+
+  useEffect(() => {
+    if (currentExpenseData) {
+      reset(currentExpenseData);
+    }
+  }, [currentExpenseData, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
     const payload = {
@@ -56,6 +59,10 @@ function AddExpenseForm() {
     }
   });
 
+  useEffect(() => {
+    dispatch(getExpenseTypes());
+  }, []);
+
   return (
     <Form methods={methods} onSubmit={onSubmit}>
       <Card sx={{ p: 3, mx: { xs: 1, md: 4 } }}>
@@ -66,7 +73,10 @@ function AddExpenseForm() {
               label="Category *"
               isWithMenuItem
               fullWidth
-              options={categoryOptions}
+              options={expenseTypes.map((item) => ({
+                value: item.id,
+                label: item.name,
+              }))}
               rules={{ required: 'Category is required' }}
             />
           </Grid>

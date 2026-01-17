@@ -115,14 +115,8 @@ const expenseTypeSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-
-    // single record
     expenseType: null,
-
-    // list
     expenseTypes: [],
-
-    // pagination
     count: 0,
     next: null,
     previous: null,
