@@ -35,6 +35,7 @@ import {
 import { PaymentTypeTableRow } from './payment-type-table-row';
 
 import { getPaymentTypes, deletePaymentType } from 'src/redux/slices/paymentType.slice';
+import { toast } from 'sonner';
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +73,24 @@ export function PaymentTypeListView() {
 
   // ---------------- DELETE SINGLE ----------------
   const handleDeleteRow = async (id) => {
-    await dispatch(deletePaymentType(id));
+    try {
+      await dispatch(deletePaymentType(id)).unwrap();
+
+      toast.success('Payment type deleted successfully!');
+
+      if (paymentTypes.length === 1 && table.page > 0) {
+        table.onChangePage(null, table.page - 1);
+      } else {
+        dispatch(
+          getPaymentTypes({
+            page: table.page + 1,
+            page_size: table.rowsPerPage,
+          })
+        );
+      }
+    } catch (error) {
+      toast.error(error?.message || 'Failed to delete payment type');
+    }
   };
 
   // ---------------- DELETE MULTIPLE ----------------
