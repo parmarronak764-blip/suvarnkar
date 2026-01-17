@@ -193,6 +193,12 @@ export function ExpenseListView() {
                   rowCount={expenses.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
+                  // onSelectAllRows={(checked) =>
+                  //   table.onSelectAllRows(
+                  //     checked,
+                  //     expenses.map((row) => row.id)
+                  //   )
+                  // }
                 />
 
                 <TableBody>

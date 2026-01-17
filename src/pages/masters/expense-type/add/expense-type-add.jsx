@@ -5,12 +5,13 @@ import { ExpenseTypeCreateEditForm } from 'src/sections/masters/expense-type/exp
 import { getExpenseTypeById } from 'src/redux/slices/expenseType.slice';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
+import { LoadingScreen } from 'src/components/loading-screen';
 
 const ExpenseTypeAdd = () => {
   const { typeId } = useParams();
   const dispatch = useDispatch();
 
-  const { expenseType } = useSelector((state) => state.expenseType);
+  const { expenseType, loading } = useSelector((state) => state.expenseType);
 
   // ✅ CALL API IF EDIT MODE
   useEffect(() => {
@@ -18,6 +19,10 @@ const ExpenseTypeAdd = () => {
       dispatch(getExpenseTypeById(typeId));
     }
   }, [typeId, dispatch]);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return <ExpenseTypeCreateEditForm currentExpenseType={typeId ? expenseType : null} />;
 };

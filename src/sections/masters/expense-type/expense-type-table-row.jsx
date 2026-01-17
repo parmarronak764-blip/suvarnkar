@@ -11,6 +11,7 @@ import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomPopover } from 'src/components/custom-popover';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +48,7 @@ export function ExpenseTypeTableRow({ row, index, selected, onSelectRow, onDelet
         onClose={menuActions.onClose}
       >
         <MenuList>
-          <MenuItem onClick={() => navigate(`/masters/expense-type/edit/${row.id}`)}>
+          <MenuItem onClick={() => navigate(paths.masters.editExpenseType(row.id))}>
             <Iconify icon="solar:pen-bold" />
             Edit
           </MenuItem>

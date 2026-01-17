@@ -100,7 +100,7 @@ export function ExpenseTypeListView() {
           action={
             <Button
               component={RouterLink}
-              href="/masters/expense-type/add"
+              href={paths.masters.addExpenseType}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
