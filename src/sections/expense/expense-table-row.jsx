@@ -3,7 +3,6 @@ import { usePopover } from 'minimal-shared/hooks';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 
@@ -20,9 +19,9 @@ export function ExpenseTableRow({ row, index, selected, onSelectRow, onDeleteRow
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
-        </TableCell>
+        </TableCell> */}
         <TableCell width={80}>{index + 1}</TableCell>
         <TableCell>{row.expense_date}</TableCell>
         <TableCell>{row.company_name}</TableCell>
