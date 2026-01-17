@@ -62,8 +62,13 @@ export function PaymentTypeListView() {
 
   // ---------------- LOAD DATA ----------------
   useEffect(() => {
-    dispatch(getPaymentTypes());
-  }, [dispatch]);
+    dispatch(
+      getPaymentTypes({
+        page: table.page + 1,
+        page_size: table.rowsPerPage,
+      })
+    );
+  }, [dispatch, table.page, table.rowsPerPage]);
 
   // ---------------- DELETE SINGLE ----------------
   const handleDeleteRow = async (id) => {

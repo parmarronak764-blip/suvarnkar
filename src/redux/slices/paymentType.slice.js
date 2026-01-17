@@ -25,12 +25,18 @@ export const createPaymentType = createAsyncThunk(
  */
 export const getPaymentTypes = createAsyncThunk(
   'paymentType/getPaymentTypes',
-  async (_, { rejectWithValue, getState }) => {
+  async ({ page = 1, page_size = 10 } = {}, { rejectWithValue, getState }) => {
     try {
       const state = getState();
       const companyId = state.user?.selectedCompany?.company?.id;
 
-      const response = await axiosInstance.get(`/expenses/payment-types/?company_id=${companyId}`);
+      const response = await axiosInstance.get('/expenses/payment-types/', {
+        params: {
+          company_id: companyId,
+          page,
+          page_size,
+        },
+      });
 
       return response.data;
     } catch (error) {

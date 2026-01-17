@@ -56,8 +56,13 @@ export function ExpenseTypeListView() {
   const { loading, expenseTypes, count } = useSelector((state) => state.expenseType);
 
   useEffect(() => {
-    dispatch(getExpenseTypes());
-  }, [dispatch]);
+    dispatch(
+      getExpenseTypes({
+        page: table.page + 1,
+        page_size: table.rowsPerPage,
+      })
+    );
+  }, [dispatch, table.page, table.rowsPerPage]);
 
   const notFound = !loading && expenseTypes.length === 0;
   const handleDeleteRow = async (id) => {
@@ -65,6 +70,18 @@ export function ExpenseTypeListView() {
       await dispatch(deleteExpenseType(id)).unwrap();
 
       toast.success('Expense type deleted successfully!');
+
+      // if last item on page → go back one page
+      if (expenseTypes.length === 1 && table.page > 0) {
+        table.onChangePage(null, table.page - 1);
+      } else {
+        dispatch(
+          getExpenseTypes({
+            page: table.page + 1,
+            page_size: table.rowsPerPage,
+          })
+        );
+      }
     } catch (error) {
       toast.error(error?.message || 'Failed to delete expense type');
     }
