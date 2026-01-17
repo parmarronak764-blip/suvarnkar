@@ -9,6 +9,7 @@ const ROOTS = {
   PURCHASE: '/purchase',
   BARCODE_ITEM: '/barcode-item',
   SALES: '/sales',
+  EXPENCE: '/expence',
 };
 
 // ----------------------------------------------------------------------
@@ -88,7 +89,10 @@ export const paths = {
     bonusMasters: `${ROOTS.MASTERS}/bonus-masters`,
     metalColors: `${ROOTS.MASTERS}/metal-colors`,
     gemStones: `${ROOTS.MASTERS}/gem-stones`,
-    addExpence: `${ROOTS.MASTERS}/add-expence`,
+  },
+  expence: {
+    addExpence: `${ROOTS.EXPENCE}/add-expence`,
+    allExpence: `${ROOTS.EXPENCE}/all-expence`,
   },
   barcodeItem: {
     list: `${ROOTS.BARCODE_ITEM}/list`,

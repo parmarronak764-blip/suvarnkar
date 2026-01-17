@@ -9,6 +9,8 @@ import { LoadingScreen } from 'src/components/loading-screen';
 import { AuthGuard } from 'src/auth/guard';
 
 import { usePathname } from '../hooks';
+import AddExpencePage from 'src/pages/expence/add-expence';
+import AllExpencePage from 'src/pages/expence/all-expence';
 
 // ----------------------------------------------------------------------
 
@@ -167,6 +169,16 @@ export const dashboardRoutes = [
     path: 'masters/gem-stones',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [{ element: <GemStonesPage />, index: true }],
+  },
+  {
+    path: 'expence/add-expence',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <AddExpencePage />, index: true }],
+  },
+  {
+    path: 'expence/all-expence',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <AllExpencePage />, index: true }],
   },
   {
     path: 'account/list',

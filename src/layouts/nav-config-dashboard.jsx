@@ -139,10 +139,28 @@ export const navData = [
             path: paths.masters.gemStones,
             permission: 'gem_stones.view',
           },
+        ],
+      },
+    ],
+  },
+
+  {
+    subheader: 'Expence',
+    items: [
+      {
+        title: 'Expence',
+        path: paths.dashboard.group.root,
+        icon: ICONS.user,
+        children: [
           {
             title: 'Add Expence',
-            path: paths.masters.addExpence,
+            path: paths.expence.addExpence,
             permission: 'addExpence.view',
+          },
+          {
+            title: 'All Expence',
+            path: paths.expence.allExpence,
+            permission: 'allExpence.view',
           },
         ],
       },
