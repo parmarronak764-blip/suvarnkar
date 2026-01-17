@@ -204,8 +204,21 @@ export function ExpenseListView() {
                 <TableBody>
                   {loading ? (
                     <TableRow>
-                      <TableCell colSpan={TABLE_HEAD.length} sx={{ textAlign: 'center', py: 8 }}>
-                        Loading expenses...
+                      <TableCell
+                        colSpan={TABLE_HEAD.length + 1}
+                        sx={{ textAlign: 'center', py: 8 }}
+                      >
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 1,
+                          }}
+                        >
+                          <Iconify icon="svg-spinners:8-dots-rotate" width={24} />
+                          Loading expenses...
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ) : (
