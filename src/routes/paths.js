@@ -93,6 +93,8 @@ export const paths = {
     addPaymentType: `${ROOTS.MASTERS}/payment-type/add`,
     editPaymentType: (id) => `${ROOTS.MASTERS}/payment-type/edit/${id}`,
     expenseType: `${ROOTS.MASTERS}/expense-type`,
+    addExpenseType: `${ROOTS.MASTERS}/expense-type/add`,
+    editExpenseType: (id) => `${ROOTS.MASTERS}/expense-type/edit/${id}`,
   },
   expense: {
     addExpense: `${ROOTS.EXPENsE}/add-expense`,
