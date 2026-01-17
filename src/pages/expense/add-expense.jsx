@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { getExpenseById } from 'src/redux/slices/expense.slice';
 import AddExpenseForm from 'src/sections/expense/add-expense-form';
 
 function AddExpensePage() {
+  const { expenseId } = useParams();
+  const dispatch = useDispatch();
+  const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
+  const { expenseById } = useSelector((state) => state.expense);
+  useEffect(() => {
+    if (expenseId) {
+      dispatch(getExpenseById({ company_id: selectedCompany, id: expenseId }));
+    }
+  }, [expenseId, dispatch]);
   return (
     <div>
-      <AddExpenseForm />
+      <AddExpenseForm currentExpenseData={expenseId ? expenseById : null} />
     </div>
   );
 }

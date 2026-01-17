@@ -209,6 +209,11 @@ export const dashboardRoutes = [
     children: [{ element: <AddExpensePage />, index: true }],
   },
   {
+    path: 'masters/expense/edit/:expenseId',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <AddExpensePage />, index: true }],
+  },
+  {
     path: 'expense/all-expense',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [{ element: <AllExpensePage />, index: true }],
