@@ -43,7 +43,7 @@ export function PaymentTypeCreateEditForm({ currentPaymentType }) {
     defaultValues: {
       name: '',
       type: 'cash',
-      balance: 0,
+      balance: '0',
       description: '',
     },
   });
@@ -162,7 +162,7 @@ export function PaymentTypeCreateEditForm({ currentPaymentType }) {
               type="number"
               fullWidth
               inputProps={{
-                step: 0.01,
+                step: '0.01',
                 min: 0,
               }}
             />
