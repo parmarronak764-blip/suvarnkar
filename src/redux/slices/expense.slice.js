@@ -150,7 +150,6 @@ const expenseSlice = createSlice({
       .addCase(updateExpenseById.fulfilled, (state, action) => {
         state.loading = false;
 
-        const index = state.expenses.findIndex((item) => item.id === action.payload.id);
         state.expenseById = {
           ...state.expenseById,
           ...action.payload,

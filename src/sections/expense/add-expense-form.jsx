@@ -10,9 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createExpense, updateExpenseById } from 'src/redux/slices/expense.slice';
 import { getExpenseTypes } from 'src/redux/slices/expenseType.slice';
 import { getPaymentTypes } from 'src/redux/slices/paymentType.slice';
+import { paths } from 'src/routes/paths';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
 
 function AddExpenseForm({ currentExpenseData }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { selectedCompany } = useSelector((state) => state.user);
   const { expenseTypes } = useSelector((state) => state.expenseType);
@@ -70,12 +74,15 @@ function AddExpenseForm({ currentExpenseData }) {
             data: payload,
           })
         ).unwrap();
+        toast.success('Expense updated successfully!');
       } else {
         await dispatch(createExpense(payload)).unwrap();
+        toast.success('Expense Added successfully!');
         reset();
       }
+      navigate(paths.expense.allExpense);
     } catch (error) {
-      console.error(error);
+      toast.error(error?.message || 'Something went wrong');
     }
   });
 

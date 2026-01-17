@@ -1,17 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useBoolean } from 'minimal-shared/hooks';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -32,15 +38,20 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
+import { Form, Field } from 'src/components/hook-form';
 import { ExpenseTableRow } from './expense-table-row';
-import { deleteExpense, getExpenses } from 'src/redux/slices/expense.slice';
+
+import { getExpenses, deleteExpense } from 'src/redux/slices/expense.slice';
+import { toast } from 'sonner';
+import dayjs from 'dayjs';
+import { ExpenseFilters } from './expense-filters';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'srno', label: 'Sr No', width: 80 },
   { id: 'date', label: 'Date' },
-  { id: 'comapny', label: 'Company' },
+  { id: 'company', label: 'Company' },
   { id: 'paymentType', label: 'Payment Type' },
   { id: 'category', label: 'Expense Type' },
   { id: 'amount', label: 'Amount' },
@@ -58,6 +69,22 @@ export function ExpenseListView() {
 
   const { loading, expenses, pagination } = useSelector((state) => state.expense);
 
+  // 🔍 Search state
+  const [search, setSearch] = useState('');
+
+  const [filters, setFilters] = useState({
+    from_date: null,
+    to_date: null,
+  });
+
+  // 📝 Date filter form
+  const methods = useForm({
+    defaultValues: {
+      from_date: null,
+      to_date: null,
+    },
+  });
+
   // ---------------- FETCH DATA ----------------
   useEffect(() => {
     dispatch(
@@ -65,31 +92,38 @@ export function ExpenseListView() {
         company_id: 1,
         page: table.page + 1,
         page_size: table.rowsPerPage,
+        from_date: filters.from_date,
+        to_date: filters.to_date,
+        search,
+        ordering: table.orderBy,
       })
     );
-  }, [dispatch, table.page, table.rowsPerPage]);
+  }, [
+    dispatch,
+    table.page,
+    table.rowsPerPage,
+    table.order,
+    table.orderBy,
+    filters.from_date,
+    filters.to_date,
+    search,
+  ]);
 
   const notFound = !loading && expenses.length === 0;
 
-  // ---------------- DELETE HANDLERS ----------------
+  // ---------------- DELETE ----------------
   const handleDeleteRow = (id) => {
-    dispatch(
-      deleteExpense({
-        id,
-        company_id: 1,
-      })
-    );
+    dispatch(deleteExpense({ id, company_id: 1 }));
+    toast.success('Expense deleted successfully!');
   };
 
   const handleDeleteRows = () => {
-    console.log('Delete selected expenses:', table.selected);
-
     table.onSelectAllRows(false, []);
     confirmDialog.onFalse();
   };
 
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
         <CustomBreadcrumbs
           heading="Expense List"
@@ -111,9 +145,26 @@ export function ExpenseListView() {
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
+        {/* FILTERS */}
+        <ExpenseFilters
+          onFilterChange={(data) => {
+            setFilters(data);
+            table.onChangePage(null, 0);
+          }}
+          onSearchChange={(value) => {
+            setSearch(value);
+            table.onChangePage(null, 0);
+          }}
+          onReset={() => {
+            setFilters({ from_date: null, to_date: null });
+            setSearch('');
+            table.onChangePage(null, 0);
+          }}
+        />
+
+        {/* TABLE */}
         <Card>
           <Box sx={{ position: 'relative' }}>
-            {/* -------- SELECTED ACTION BAR -------- */}
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -142,33 +193,13 @@ export function ExpenseListView() {
                   rowCount={expenses.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      expenses.map((row) => row.id)
-                    )
-                  }
                 />
 
                 <TableBody>
-                  {/* -------- LOADING -------- */}
                   {loading ? (
                     <TableRow>
-                      <TableCell
-                        colSpan={TABLE_HEAD.length + 1}
-                        sx={{ textAlign: 'center', py: 8 }}
-                      >
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: 1,
-                          }}
-                        >
-                          <Iconify icon="svg-spinners:8-dots-rotate" width={24} />
-                          Loading expenses...
-                        </Box>
+                      <TableCell colSpan={TABLE_HEAD.length} sx={{ textAlign: 'center', py: 8 }}>
+                        Loading expenses...
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -209,7 +240,6 @@ export function ExpenseListView() {
         </Card>
       </Container>
 
-      {/* -------- BULK DELETE CONFIRM -------- */}
       <ConfirmDialog
         open={confirmDialog.value}
         onClose={confirmDialog.onFalse}
@@ -221,6 +251,6 @@ export function ExpenseListView() {
           </Button>
         }
       />
-    </>
+    </LocalizationProvider>
   );
 }
