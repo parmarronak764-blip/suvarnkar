@@ -11,7 +11,7 @@ export const createPaymentTypeSchema = () =>
     }),
 
     balance: zod
-      .number()
+      .string()
       .min(1, 'Balance is required')
       .refine((val) => /^\d+(\.\d{1,2})?$/.test(val), 'Only up to 2 decimal places allowed')
       .transform((val) => Number(val)),

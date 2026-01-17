@@ -123,12 +123,12 @@ export function ExpenseTypeListView() {
                   rowCount={expenseTypes.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      expenseTypes.map((row) => row.id)
-                    )
-                  }
+                  // onSelectAllRows={(checked) =>
+                  //   table.onSelectAllRows(
+                  //     checked,
+                  //     expenseTypes.map((row) => row.id)
+                  //   )
+                  // }
                 />
 
                 <TableBody>

@@ -3,7 +3,6 @@ import { useBoolean, usePopover } from 'minimal-shared/hooks';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 
@@ -23,9 +22,9 @@ export function ExpenseTypeTableRow({ row, index, selected, onSelectRow, onDelet
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
-        </TableCell>
+        </TableCell> */}
 
         {/* Sr No */}
         <TableCell width={80}>{index + 1}</TableCell>

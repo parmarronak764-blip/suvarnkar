@@ -1,154 +1,152 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+  import { zodResolver } from '@hookform/resolvers/zod';
+  import { useForm } from 'react-hook-form';
+  import { useEffect } from 'react';
 
-import Card from '@mui/material/Card';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
+  import Card from '@mui/material/Card';
+  import Grid from '@mui/material/Grid';
+  import Button from '@mui/material/Button';
+  import Typography from '@mui/material/Typography';
+  import MenuItem from '@mui/material/MenuItem';
 
-import { Form, Field } from 'src/components/hook-form';
-import { toast } from 'src/components/snackbar';
+  import { Form, Field } from 'src/components/hook-form';
+  import { toast } from 'src/components/snackbar';
 
-import { PaymentTypeSchema } from 'src/schema/payment-type.schema';
+  import { PaymentTypeSchema } from 'src/schema/payment-type.schema';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { createPaymentType, updatePaymentType } from 'src/redux/slices/paymentType.slice';
+  import { useDispatch, useSelector } from 'react-redux';
+  import { createPaymentType, updatePaymentType } from 'src/redux/slices/paymentType.slice';
 
-import { useNavigate } from 'react-router';
-import { paths } from 'src/routes/paths';
+  import { useNavigate } from 'react-router';
+  import { paths } from 'src/routes/paths';
 
-// ----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
-const typeOptions = [
-  { value: 'cash', label: 'Cash' },
-  { value: 'bank', label: 'Bank' },
-];
+  const typeOptions = [
+    { value: 'cash', label: 'Cash' },
+    { value: 'bank', label: 'Bank' },
+  ];
 
-export function PaymentTypeCreateEditForm({ currentPaymentType }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  export function PaymentTypeCreateEditForm({ currentPaymentType }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  const { loading } = useSelector((state) => state.paymentType);
-  const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
+    const { loading } = useSelector((state) => state.paymentType);
+    const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
 
-  const methods = useForm({
-    mode: 'onSubmit',
-    resolver: zodResolver(PaymentTypeSchema),
-    defaultValues: {
-      name: '',
-      type: '',
-      balance: 0,
-      description: '',
-    },
-  });
+    const methods = useForm({
+      mode: 'onSubmit',
+      resolver: zodResolver(PaymentTypeSchema),
+      defaultValues: {
+        name: '',
+        type: 'cash',
+        balance: 0,
+        description: '',
+      },
+    });
 
-  const {
-    reset,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+    const {
+      reset,
+      handleSubmit,
+      formState: { isSubmitting },
+    } = methods;
 
-  // ---------------- EDIT MODE ----------------
-  useEffect(() => {
-    if (currentPaymentType) {
-      reset({
-        name: currentPaymentType.name ?? '',
-        type: currentPaymentType.type ?? '',
-        balance: Number(currentPaymentType.balance ?? 0),
-        description: currentPaymentType.description ?? '',
-      });
-    }
-  }, [currentPaymentType, reset]);
-
-  // ---------------- SUBMIT ----------------
-  const onSubmit = handleSubmit(async (data) => {
-    try {
+    // ---------------- EDIT MODE ----------------
+    useEffect(() => {
       if (currentPaymentType) {
-        // ✅ UPDATE
-        await dispatch(
-          updatePaymentType({
-            typeId: currentPaymentType.id,
-            payload: {
+        reset({
+          name: currentPaymentType.name ?? '',
+          type: currentPaymentType.type ?? '',
+          balance: Number(currentPaymentType.balance ?? 0),
+          description: currentPaymentType.description ?? '',
+        });
+      }
+    }, [currentPaymentType, reset]);
+
+    // ---------------- SUBMIT ----------------
+    const onSubmit = handleSubmit(async (data) => {
+      try {
+        if (currentPaymentType) {
+          // ✅ UPDATE
+          await dispatch(
+            updatePaymentType({
+              typeId: currentPaymentType.id,
+              payload: {
+                ...data,
+                company: selectedCompany,
+              },
+            })
+          ).unwrap();
+
+          toast.success('Payment type updated successfully!');
+        } else {
+          // ✅ CREATE
+          await dispatch(
+            createPaymentType({
               ...data,
               company: selectedCompany,
-            },
-          })
-        ).unwrap();
+            })
+          ).unwrap();
 
-        toast.success('Payment type updated successfully!');
-      } else {
-        // ✅ CREATE
-        await dispatch(
-          createPaymentType({
-            ...data,
-            company: selectedCompany,
-          })
-        ).unwrap();
+          toast.success('Payment type created successfully!');
+        }
 
-        toast.success('Payment type created successfully!');
+        navigate(paths.masters.paymentType);
+      } catch (error) {
+        toast.error(error?.message || 'Something went wrong');
       }
+    });
 
-      navigate(paths.masters.paymentType);
-    } catch (error) {
-      toast.error(error?.message || 'Something went wrong');
-    }
-  });
+    return (
+      <Form methods={methods} onSubmit={onSubmit}>
+        <Card sx={{ p: 3 }}>
+          <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
+            {currentPaymentType ? 'Edit Payment Type' : 'Add Payment Type'}
+          </Typography>
 
-  return (
-    <Form methods={methods} onSubmit={onSubmit}>
-      <Card sx={{ p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
-          {currentPaymentType ? 'Edit Payment Type' : 'Add Payment Type'}
-        </Typography>
+          <Grid container spacing={2}>
+            {/* Name */}
+            <Grid size={12}>
+              <Field.Text name="name" label="Payment Name *" fullWidth />
+            </Grid>
 
-        <Grid container spacing={2}>
-          {/* Name */}
-          <Grid size={6}>
-            <Field.Text name="name" label="Payment Name *" fullWidth />
+            {/* Type */}
+            <Grid size={6}>
+              <Field.Select name="type" label="Type *" fullWidth>
+                {typeOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Field.Select>
+            </Grid>
+
+            {/* Balance */}
+            <Grid size={6}>
+              <Field.Text
+                name="balance"
+                label="Balance *"
+                // type=""
+                fullWidth
+                inputProps={{
+                  step: 0.01,
+                  min: 0,
+                }}
+              />
+            </Grid>
+
+            {/* Description */}
+            <Grid size={12}>
+              <Field.Text name="description" label="Description" multiline rows={3} fullWidth />
+            </Grid>
+
+            {/* Save */}
+            <Grid size={12} display="flex" justifyContent="flex-end">
+              <Button type="submit" variant="contained" disabled={loading || isSubmitting}>
+                {loading ? 'Saving...' : 'Save'}
+              </Button>
+            </Grid>
           </Grid>
-
-          {/* Type */}
-          <Grid size={6}>
-            <Field.Select name="type" label="Type *" fullWidth>
-              {typeOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Field.Select>
-          </Grid>
-
-          {/* Balance */}
-          <Grid size={6}>
-            <Field.Text
-              name="balance"
-              label="Balance *"
-              type="number"
-              fullWidth
-              inputProps={{
-                step: '0.01',
-                min: 0,
-              }}
-            />
-          </Grid>
-
-          <Grid size={6} />
-
-          {/* Description */}
-          <Grid size={12}>
-            <Field.Text name="description" label="Description" multiline rows={3} fullWidth />
-          </Grid>
-
-          {/* Save */}
-          <Grid size={12} display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained" disabled={loading || isSubmitting}>
-              {loading ? 'Saving...' : 'Save'}
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-    </Form>
-  );
-}
+        </Card>
+      </Form>
+    );
+  }

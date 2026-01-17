@@ -144,6 +144,11 @@ export const dashboardRoutes = [
     children: [{ element: <PaymentTypeAddPage />, index: true }],
   },
   {
+    path: 'masters/payment-type/edit/:typeId',
+    element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
+    children: [{ element: <PaymentTypeAddPage />, index: true }],
+  },
+  {
     path: 'masters/expense-type',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [{ element: <ExpenseType />, index: true }],

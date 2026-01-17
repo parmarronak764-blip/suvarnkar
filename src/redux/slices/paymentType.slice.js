@@ -69,9 +69,14 @@ export const getPaymentTypeById = createAsyncThunk(
  */
 export const updatePaymentType = createAsyncThunk(
   'paymentType/updatePaymentType',
-  async ({ typeId, payload }, { rejectWithValue }) => {
+  async ({ typeId, payload }, { rejectWithValue, getState }) => {
+    const state = getState();
+    const companyId = state.user?.selectedCompany?.company?.id;
     try {
-      const response = await axiosInstance.patch(`/expenses/payment-types/${typeId}/`, payload);
+      const response = await axiosInstance.patch(
+        `/expenses/payment-types/${typeId}/?company_id=${companyId}`,
+        payload
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to update payment type');

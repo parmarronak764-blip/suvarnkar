@@ -3,7 +3,6 @@ import { useBoolean, usePopover } from 'minimal-shared/hooks';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 
@@ -12,26 +11,30 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomPopover } from 'src/components/custom-popover';
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 export function PaymentTypeTableRow({ row, selected, onSelectRow, onDeleteRow }) {
   const confirmDialog = useBoolean();
   const menuActions = usePopover();
-
+  const navigate = useNavigate();
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
-        </TableCell>
+        </TableCell> */}
 
         <TableCell>{row.company}</TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.name}</TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.description || '-'}</TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.balance || '-'}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>
+          {typeof row.balance === 'string' ? Number(row.balance).toFixed(2) : '-'}
+        </TableCell>
         <TableCell>
           <Label color={row.is_active ? 'success' : 'error'}>
             {row.is_active ? 'Active' : 'Inactive'}
@@ -52,7 +55,7 @@ export function PaymentTypeTableRow({ row, selected, onSelectRow, onDeleteRow })
         onClose={menuActions.onClose}
       >
         <MenuList>
-          <MenuItem>
+          <MenuItem onClick={() => navigate(paths.masters.editPaymentType(row?.id))}>
             <Iconify icon="solar:pen-bold" />
             Edit
           </MenuItem>

@@ -91,7 +91,7 @@ export const paths = {
     gemStones: `${ROOTS.MASTERS}/gem-stones`,
     paymentType: `${ROOTS.MASTERS}/payment-type`,
     addPaymentType: `${ROOTS.MASTERS}/payment-type/add`,
-    editPaymentType: `${ROOTS.MASTERS}/payment-type/edit/`,
+    editPaymentType: (id) => `${ROOTS.MASTERS}/payment-type/edit/${id}`,
     expenseType: `${ROOTS.MASTERS}/expense-type`,
   },
   expense: {

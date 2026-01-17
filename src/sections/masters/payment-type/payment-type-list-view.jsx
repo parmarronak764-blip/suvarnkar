@@ -133,12 +133,6 @@ export function PaymentTypeListView() {
                   rowCount={paymentTypes.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      paymentTypes.map((row) => row.id)
-                    )
-                  }
                 />
 
                 <TableBody>
