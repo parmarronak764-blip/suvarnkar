@@ -61,16 +61,18 @@ export function ExpenseFilters({ onFilterChange, onSearchChange, onReset }) {
       sx={{ mb: 2 }}
     >
       <Form methods={methods} onSubmit={onSubmit}>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} alignItems="stretch">
           <Field.DatePicker name="from_date" label="From Date" />
+
           <Field.DatePicker name="to_date" label="To Date" />
 
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" sx={{ maxHeight: 56 }}>
             Apply
           </Button>
 
           <Button
             variant="outlined"
+            sx={{ maxHeight: 56 }}
             onClick={() => {
               reset();
               setSearchValue('');
@@ -83,11 +85,15 @@ export function ExpenseFilters({ onFilterChange, onSearchChange, onReset }) {
       </Form>
 
       <TextField
-        size="small"
-        sx={{ height: '100%' }}
         placeholder="Search expenses..."
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
+        sx={{
+          minHeight: 56,
+          '& .MuiInputBase-root': {
+            height: 56,
+          },
+        }}
       />
     </Stack>
   );

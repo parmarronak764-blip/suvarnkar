@@ -87,6 +87,12 @@ export function ExpenseListView() {
 
   // ---------------- FETCH DATA ----------------
   useEffect(() => {
+    const ordering = table.orderBy
+      ? table.order === 'desc'
+        ? `-${table.orderBy}`
+        : table.orderBy
+      : undefined;
+      
     dispatch(
       getExpenses({
         company_id: 1,
@@ -95,7 +101,7 @@ export function ExpenseListView() {
         from_date: filters.from_date,
         to_date: filters.to_date,
         search,
-        ordering: table.orderBy,
+        ordering,
       })
     );
   }, [
