@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPaymentTypeById, clearPaymentType } from 'src/redux/slices/paymentType.slice';
 
 import { PaymentTypeCreateEditForm } from 'src/sections/masters/payment-type/payment-type-create-edit-form';
-import { LoadingScreen } from 'src/components/loading-screen';
 
 export default function PaymentTypeAdd() {
   const { typeId } = useParams();
@@ -23,8 +22,6 @@ export default function PaymentTypeAdd() {
       dispatch(clearPaymentType());
     };
   }, [typeId, dispatch]);
-  if (loading) {
-    return <LoadingScreen />;
-  }
+
   return <PaymentTypeCreateEditForm currentPaymentType={typeId ? paymentType : null} />;
 }

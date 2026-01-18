@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import { useNavigate } from 'react-router';
 
 import { ExpenseSchema } from 'src/schema/expense.schema';
+import { handleDecimalInput } from 'src/utils/decimal';
 
 function AddExpenseForm({ currentExpenseData }) {
   const dispatch = useDispatch();
@@ -134,8 +135,10 @@ function AddExpenseForm({ currentExpenseData }) {
               label="Amount *"
               type="number"
               fullWidth
+              onInput={handleDecimalInput}
               slotProps={{ inputLabel: { shrink: true } }}
             />
+            
           </Grid>
 
           <Grid size={3}>
