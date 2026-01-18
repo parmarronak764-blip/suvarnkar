@@ -18,6 +18,7 @@ import { createPaymentType, updatePaymentType } from 'src/redux/slices/paymentTy
 
 import { useNavigate } from 'react-router';
 import { paths } from 'src/routes/paths';
+import { handleDecimalInput } from 'src/utils/decimal';
 
 // ----------------------------------------------------------------------
 
@@ -35,15 +36,13 @@ export function PaymentTypeCreateEditForm({ currentPaymentType }) {
   const { loading } = useSelector((state) => state.paymentType);
   const selectedCompany = useSelector((state) => state.user?.selectedCompany?.company?.id);
 
-  // ----------------------------------------------------------------------
-
   const methods = useForm({
     mode: 'onSubmit',
     resolver: zodResolver(PaymentTypeSchema),
     defaultValues: {
       name: '',
       type: 'cash',
-      balance: '0',
+      balance: 0,
       description: '',
     },
   });
@@ -161,10 +160,7 @@ export function PaymentTypeCreateEditForm({ currentPaymentType }) {
               label="Balance *"
               type="number"
               fullWidth
-              inputProps={{
-                step: '0.01',
-                min: 0,
-              }}
+              onInput={handleDecimalInput}
             />
           </Grid>
 
